@@ -48,11 +48,16 @@ for t=1:iterations;
     [d_acc,d_keep,d_dec]=safety_distance(plaza,v,l,v_s,a,M);
     [R_a]=slow_to_accleration(plaza,v,l,v_s,a,M);
     [v,gap]=accleration(plaza,v,vmax,l,v_s,a,M,R_a,d_acc,d_keep,d_dec);
+    temp_v0_1 = find(v(:,2)==0);
+    temp_v0_2 = find(v(:,3)==0);
     [plaza,v,vmax,l,v_s,a,M]=move_forward(plaza,v,vmax,l,v_s,a,M);
-    pos_1 = find(plaza(:,2)==1);
-    pos_2 = find(plaza(:,3)==1);
-    velo_1 = find(v(:,2)~=-1);
-    velo_2 = find(v(:,3)~=-1);
+    temp_v0_1 = find(v(:,2)==0);
+    temp_v0_2 = find(v(:,3)==0);
+
+    % pos_1 = find(plaza(:,2)==1);
+    % pos_2 = find(plaza(:,3)==1);
+    % velo_1 = find(v(:,2)~=-1);
+    % velo_2 = find(v(:,3)~=-1);
     % t
     if (t > 0.9 * iterations)
         time_space = get_time_space(t,plaza,v,vmax,l,v_s,a,M);
