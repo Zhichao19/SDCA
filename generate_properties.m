@@ -15,7 +15,7 @@ for lanes=2:W-1;
             v_s(i,lanes) = v_s_truck;
             a(i,lanes) = a_truck;
             % M(i,lanes) = ceil(rand * (M_truck - 1) + 1);
-            M(i,lanes) = 0.6 * M_truck;
+            M(i,lanes) = M_truck;
         end
         if (vmax(i,lanes) == v_max_car)
             l(i,lanes) = l_car;

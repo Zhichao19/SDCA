@@ -10,7 +10,7 @@ plazalength=12000;  % The length of the simulation highways
 h=NaN;            % The handle of the image
 
 l_car = 6; v_max_car = 30; v_s_car = 7; a_car = 2; M_car = 5;
-l_truck = 12; v_max_truck = 23; v_s_truck = 7; a_truck = 1; M_truck = 5;
+l_truck = 12; v_max_truck = 23; v_s_truck = 7; a_truck = 1; M_truck = 3;
 parameters = {l_car,v_max_car,v_s_car,a_car,M_car,l_truck,v_max_truck,v_s_truck,a_truck,M_truck};
 
 [plaza,v]=create_plaza(B,plazalength);
@@ -18,14 +18,14 @@ parameters = {l_car,v_max_car,v_s_car,a_car,M_car,l_truck,v_max_truck,v_s_truck,
 
 iterations=10000;    % Number of iterations
 rho = 44;            % density unit: veh/km
-probc=0.1;          % Density of the cars
-probv=[0.1 1];      % Density of two kinds of cars
-probslow=0.3;       % The probability of random slow
-Dsafe=1;            % The safe gap distance for the car to change the lane
+% probc=0.1;          % Density of the cars
+probv=[0 1];      % Density of two kinds of vehicles: truck and car
+% probslow=0.3;       % The probability of random slow
+% Dsafe=1;            % The safe gap distance for the car to change the lane
 VTypes=[v_max_truck,v_max_car];       % Maximum speed of two different cars 
 
-num = floor(rho * plazalength * B /1000);
-num1 = floor(num * probv(1));
+num = floor(rho * plazalength * B /1000); % The number of all vehicles
+num1 = floor(num * probv(1));             % The number of all trucks
 
 [L,W,num,num1,plaza,v,vmax]=generate_car(plaza,v,rho,probv,VTypes);
 % temp_1 = find(plaza(:,2)==1);
@@ -54,7 +54,7 @@ for t=1:iterations;
     velo_1 = find(v(:,2)~=-1);
     velo_2 = find(v(:,3)~=-1);
     % t
-    if (t > 0.95 * iterations)
+    if (t > 0.9 * iterations)
         time_space = get_time_space(t,plaza,v,vmax,l,v_s,a,M);
     end
     % [v,gap,LUP,LDOWN]=para_count(plaza,v,vmax);

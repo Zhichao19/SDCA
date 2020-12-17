@@ -17,12 +17,12 @@ if (delta_M~=0)
 else
     ubound_1 = floor((v(temp(k),lanes) + a(temp(k),lanes)) / M(temp(k),lanes));
     ubound_2 = floor((v(temp(preceding),lanes) - M(temp(k),lanes)) / M(temp(k),lanes));
-    sum_1 = zeros(ubound_1,1);
-    sum_2 = zeros(ubound_2,1);
-    for i = 0 : sum_1
+    sum_1 = zeros(ubound_1 + 1,1);
+    sum_2 = zeros(ubound_2 + 1,1);
+    for i = 0 : ubound_1
         sum_1(i + 1) = v(temp(k),lanes) + a(temp(k),lanes) - i * M(temp(k),lanes);
     end
-    for i = 0 : sum_2
+    for i = 0 : ubound_2
         sum_2(i + 1) = v(temp(preceding),lanes) - M(temp(preceding),lanes) - i * M(temp(preceding),lanes);   
     end
     d_acc = max(0,sum(sum_1)-sum(sum_2));
