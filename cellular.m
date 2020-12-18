@@ -16,8 +16,8 @@ parameters = {l_car,v_max_car,v_s_car,a_car,M_car,l_truck,v_max_truck,v_s_truck,
 [plaza,v]=create_plaza(B,plazalength);
 % h=show_plaza(plaza,h,0.1);
 
-iterations=10000;    % Number of iterations
-rho = 44;            % density unit: veh/km
+iterations=40000;    % Number of iterations
+rho = 10;            % density unit: veh/km
 % probc=0.1;          % Density of the cars
 probv=[0 1];      % Density of two kinds of vehicles: truck and car
 % probslow=0.3;       % The probability of random slow
@@ -40,6 +40,7 @@ num1 = floor(num * probv(1));             % The number of all trucks
 % size(find(plaza==1)) % the total number of vehicles
 PLAZA=rot90(plaza,2); %transfer matrix
 % h=show_plaza(PLAZA,h,0.1); %show
+v_ave_t = []; 
 for t=1:iterations;
     t
     % size(find(plaza==1));
@@ -59,8 +60,9 @@ for t=1:iterations;
     % velo_1 = find(v(:,2)~=-1);
     % velo_2 = find(v(:,3)~=-1);
     % t
-    if (t > 0.9 * iterations)
+    if (t >= iterations - 1000)
         time_space = get_time_space(t,plaza,v,vmax,l,v_s,a,M);
+        v_ave_t = [v_ave_t; 3.6 * mean(time_space(:,4))]
     end
     % [v,gap,LUP,LDOWN]=para_count(plaza,v,vmax);
     % [plaza,v,vmax]=switch_lane(plaza,v,vmax,gap,LUP,LDOWN);
