@@ -28,10 +28,10 @@ for lanes=2:W-1;
     for k=1:nn;
         i=temp(k);
         if(v(i,lanes)<=gap(i,lanes))
-        pos=mod(i+v(i,lanes)-1,L)+1;
+            pos=mod(i+v(i,lanes)-1,L)+1;
         end
         if(v(i,lanes)>gap(i,lanes))
-        pos=mod(i+gap(i,lanes)-1,L)+1;
+            pos=mod(i+gap(i,lanes)-1,L)+1;
         end
         plaza_new(pos,lanes)=1;
         v_new(pos,lanes) = v(i,lanes);
@@ -39,11 +39,11 @@ for lanes=2:W-1;
         l_new(pos,lanes) = l(i,lanes);
         v_s_new(pos,lanes) = v_s(i,lanes);
         a_new(pos,lanes) = a(i,lanes);
-        M_new(pos,lanes) = M(i,lanes);  
-
-
-        end
+        M_new(pos,lanes) = M(i,lanes);
+        
+        
     end
+end
 end
 
 
