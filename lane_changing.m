@@ -1,4 +1,4 @@
-function [plaza_new,v_new,vmax_new,l_new,v_s_new,a_new,M_new]=lane_changing(plaza,v,vmax,l,v_s,a,M,d_acc,d_keep,d_dec)
+function [changing_N,plaza_new,v_new,vmax_new,l_new,v_s_new,a_new,M_new]=lane_changing(changing_N,t,iterations,plaza,v,vmax,l,v_s,a,M,d_acc,d_keep,d_dec)
 [L,W]=size(plaza);% The size of the lane
 gap=zeros(L,W);
 plaza_new = zeros(L,W);
@@ -59,6 +59,9 @@ for lanes=2:W-1;
                     v_s_new(i,aim)=v_s(i,lanes);
                     a_new(i,aim)=a(i,lanes);
                     M_new(i,aim)=M(i,lanes);
+                    if (t >= (iterations - 1000))
+                        changing_N=changing_N+1;
+                    end
                 else
                     plaza_new(i,lanes)=plaza(i,lanes);
                     v_new(i,lanes)=v(i,lanes);

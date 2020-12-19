@@ -42,7 +42,8 @@ for lanes=2:W-1   % lane by lane
             b_car=temp2(b);
             if  (f_car-i-l(f_car,aim)<=lambda*v(i,lanes)) && (b_car>=i-l(i,lanes)-10) && (l(b_car,aim)==6) && (v(b_car,aim)>=23) && (rand<=R_h)
                 v_new(i,lanes)=max(v(i,lanes)-a(i,lanes),0);
-                break
+                % break
+                continue
             end
         end
         if (l(i,lanes)==12) && (lanes==3) && (length(temp_truck_other)>0)
@@ -58,7 +59,8 @@ for lanes=2:W-1   % lane by lane
             b_car=temp1(b);
             if (f_car-i-l(f_car,aim)<=lambda*v(i,lanes)) && (b_car>=i-l(i,lanes)-10) && (l(b_car,aim)==6) && (v(b_car,aim)>=23) && (rand<=R_h)
                 v_new(i,lanes)=max(v(i,lanes)-a(i,lanes),0);
-                break
+                % break
+                continue
             end
         end
         %%%%%%%%%%%%%%%%%%%% S3a
@@ -82,8 +84,12 @@ for lanes=2:W-1   % lane by lane
             v_new(i,lanes) = max(v(i,lanes) - a(i,lanes), 0);
         end
         %%%%%%%%%%%%%%%%%%%% S3d
-        if (v(i,lanes) > 0) & (gap(i,lanes) < d_dec(i,lanes) )
-            v_new(i,lanes) = max(v(i,lanes) - M(i,lanes),0);
+        if (gap(i,lanes) < d_dec(i,lanes) )
+            if (v(i,lanes) > 0)
+                v_new(i,lanes) = max(v(i,lanes) - M(i,lanes),0);
+            else
+                v_new(i,lanes) = v(i,lanes);
+            end
         end
     end
 end

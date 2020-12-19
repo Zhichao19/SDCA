@@ -1,4 +1,4 @@
-function [Density,Velocity,Flow] = fundamental_diagram(Probv_set,M_truck_set)
+function [Density,Velocity,Flow,Change_F] = fundamental_diagram(Probv_set,M_truck_set)
 
 B=2;              % The number of the lanes
 plazalength=12000;  % The length of the simulation highways
@@ -8,6 +8,7 @@ Density = 2:2:80;
 Density = Density';
 Velocity = [];
 Flow = [];
+Change_F = [];
 
 for rho = 2:2:80
 
@@ -17,8 +18,9 @@ for rho = 2:2:80
 
     [plaza,v]=create_plaza(B,plazalength);
     % h=show_plaza(plaza,h,0.1);
+    changing_N=0;
 
-    iterations=40000;    % Number of iterations
+    iterations=5000;    % Number of iterations
     % rho = 10;            % density unit: veh/km
     % probc=0.1;          % Density of the cars
     probv=[Probv_set 1];      % Density of two kinds of vehicles: truck and car
@@ -49,13 +51,15 @@ for rho = 2:2:80
         PLAZA=rot90(plaza,2); % transfer???
         % h=show_plaza(PLAZA,h,0.1);
         [d_acc,d_keep,d_dec]=safety_distance(plaza,v,l,v_s,a,M);
+        [changing_N,plaza,v,vmax,l,v_s,a,M]=lane_changing(changing_N,t,iterations,plaza,v,vmax,l,v_s,a,M,d_acc,d_keep,d_dec);
+        [d_acc,d_keep,d_dec]=safety_distance(plaza,v,l,v_s,a,M);
         [R_a]=slow_to_accleration(plaza,v,l,v_s,a,M);
         [v,gap]=accleration(plaza,v,vmax,l,v_s,a,M,R_a,d_acc,d_keep,d_dec);
-        temp_v0_1 = find(v(:,2)==0);
-        temp_v0_2 = find(v(:,3)==0);
+        % temp_v0_1 = find(v(:,2)==0);
+        % temp_v0_2 = find(v(:,3)==0);
         [plaza,v,vmax,l,v_s,a,M]=move_forward(plaza,v,vmax,l,v_s,a,M);
-        temp_v0_1 = find(v(:,2)==0);
-        temp_v0_2 = find(v(:,3)==0);
+        % temp_v0_1 = find(v(:,2)==0);
+        % temp_v0_2 = find(v(:,3)==0);
 
         % pos_1 = find(plaza(:,2)==1);
         % pos_2 = find(plaza(:,3)==1);
@@ -71,7 +75,8 @@ for rho = 2:2:80
         % [plaza,v,vmax]=random_slow(plaza,v,vmax,probslow);
         
     end
-
+    changing_f=changing_N/(num*1000);
+    Change_F = [Change_F ; changing_f];
     Velocity = [Velocity ; mean(v_ave_t)];
     
 end
